@@ -21,9 +21,4 @@ public class Task {
     public Task() {
         this.taskDate = LocalDate.now();
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> test
-
 }
