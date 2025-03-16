@@ -6,6 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 public class Task {
@@ -14,5 +16,11 @@ public class Task {
     private Long id;
     private String title;
     private boolean completed;
+    private LocalDate taskDate;
+
+    public Task() {
+        this.taskDate = LocalDate.now();
+    }
+
 
 }

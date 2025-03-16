@@ -3,12 +3,12 @@ package com.app.ToDoApp.repository;
 import com.app.ToDoApp.models.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskRepo extends JpaRepository<Task, Long> {
-    long countByCompletedFalse();
-    long countByCompletedTrue();
-    List<Task> findByCompletedFalse();
-    List<Task> findByCompletedTrue();
-
+    long countByCompletedAndTaskDate(boolean isCompleted, LocalDate date);
+    List<Task> findByCompletedFalseAndTaskDate(LocalDate taskDate);
+    List<Task> findByCompletedTrueAndTaskDate(LocalDate taskDate);
+    List<Task> findByTaskDate(LocalDate taskDate);
 }
