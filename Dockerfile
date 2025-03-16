@@ -1,10 +1,25 @@
-# Build Stage
-FROM maven:3.9.6-eclipse-temurin-23 AS build
-COPY . .
+# Stage 1: Build
+FROM maven:3.9.0-eclipse-temurin AS build
+
+WORKDIR /app
+
+# Copy and resolve dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy source code and build the application
+COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Run Stage
-FROM eclipse-temurin:23-jdk-slim
-COPY --from=build /target/todo-app.jar app.jar
+# Stage 2: Runtime
+FROM openjdk:17-slim
+
+WORKDIR /app
+
+# Copy the packaged application from the build stage
+COPY --from=build /app/target/ToDoApp-0.0.1-SNAPSHOT.jar .
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "/app/ToDoApp-0.0.1-SNAPSHOT.jar"]
