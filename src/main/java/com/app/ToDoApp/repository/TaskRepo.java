@@ -8,9 +8,15 @@ import java.util.List;
 
 public interface TaskRepo extends JpaRepository<Task, Long> {
     long countByCompletedAndTaskDate(boolean isCompleted, LocalDate date);
+<<<<<<< HEAD
     long countByCompleted(boolean isCompleted);
     List<Task> findByCompletedFalseAndTaskDate(LocalDate taskDate);
     List<Task> findByCompletedTrueAndTaskDate(LocalDate taskDate);
     List<Task> findByTaskDate(LocalDate taskDate);
 
+=======
+    List<Task> findByCompletedFalseAndTaskDate(LocalDate taskDate);
+    List<Task> findByCompletedTrueAndTaskDate(LocalDate taskDate);
+    List<Task> findByTaskDate(LocalDate taskDate);
+>>>>>>> test
 }
