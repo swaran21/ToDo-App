@@ -4,9 +4,8 @@ import com.app.ToDoApp.models.Task;
 import com.app.ToDoApp.repository.TaskRepo;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class TaskService {
     private final TaskRepo taskRepo;
@@ -15,14 +14,15 @@ public class TaskService {
         this.taskRepo = taskRepo;
     }
 
-    public List<Task> getAllTasks() {
-        return taskRepo.findAll();
+    public List<Task> getAllTasks(LocalDate selectedDate) {
+        return taskRepo.findByTaskDate(selectedDate);
     }
 
-    public void createTask(String title) {
+    public void createTask(String title,LocalDate taskDate) {
         Task task = new Task();
         task.setTitle(title);
         task.setCompleted(false);
+        task.setTaskDate(taskDate);
         taskRepo.save(task);
     }
 
@@ -36,19 +36,24 @@ public class TaskService {
         taskRepo.save(task);
     }
 
-    public long countPendingTasks() {
-        return taskRepo.countByCompletedFalse();
+    public long countPendingTasksByDate(LocalDate date) {
+        return taskRepo.countByCompletedAndTaskDate(false,date);
     }
 
-    public long countCompletedTasks() {
-        return taskRepo.countByCompletedTrue();
+    public long countCompletedTasksByDate(LocalDate date) {
+        return taskRepo.countByCompletedAndTaskDate(true, date);
     }
 
-    public List<Task> getPendingTasks() {
-        return taskRepo.findByCompletedFalse();
+    public List<Task> getPendingTasksByDate(LocalDate date) {
+        return taskRepo.findByCompletedFalseAndTaskDate(date);
     }
 
-    public List<Task> getCompletedTasks() {
-        return taskRepo.findByCompletedTrue();
+    public List<Task> getCompletedTasksByDate(LocalDate date) {
+        return taskRepo.findByCompletedTrueAndTaskDate(date);
     }
+
+    public List<Task> getTaskByDate(LocalDate taskDate) {
+        return taskRepo.findByTaskDate(taskDate);
+    }
+
 }
